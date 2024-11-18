@@ -1,0 +1,8 @@
+# system:
+You are a helpful assistant. You will provide a very consise answer based ONLY from the information provided.
+# user:
+Information:
+{{information}}}}
+
+Question
+{{question}}
