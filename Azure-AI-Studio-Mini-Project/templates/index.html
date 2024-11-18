@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Application</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Internal Search Web Page</h1>
+    <div id="chat-box"></div>
+    <form id="chat-form">
+        <input type="text" id="query" name="query" placeholder="Type your question here..." required>
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#chat-form').on('submit', function(e) {
+                e.preventDefault();
+                var userInput = $('#query').val();
+                $('#chat-box').append('<p><strong>You:</strong> ' + userInput + '</p>');
+                $.ajax({
+                    url: '/ask',
+                    method: 'POST',
+                    data: { query: userInput },
+                    success: function(response) {
+                        if (response.answer) {
+                            $('#chat-box').append('<p><strong>AI:</strong> ' + response.answer + '</p>');
+                        } else {
+                            $('#chat-box').append('<p><strong>Error:</strong> ' + response.error + '</p>');
+                        }
+                    },
+                    error: function() {
+                        $('#chat-box').append('<p><strong>Error:</strong> An error occurred while processing your request.</p>');
+                    }
+                });
+                $('#query').val('');
+            });
+        });
+    </script>
+</body>
+</html>
